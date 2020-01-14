@@ -17,7 +17,6 @@ namespace PacMan
         private Vector2 m_velocityDirection = Vector2.zero;
         private Vector2 m_velocityRef = Vector2.zero;
 
-
         private float m_smoothTime = 0.0f;
 
         [Header("MOVEMENTS PARAMETERS")]
