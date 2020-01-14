@@ -25,6 +25,11 @@ namespace PacMan
         private float verticalInput;
         private int m_rotationCoef;
 
+        public float leftScreenLimit;
+        public float rightScreenLimit;
+        public float upScreenLimit;
+        public float downScreenLimit;
+
         private bool m_isFacingRight = true;
 
         [Header("MOVEMENTS PARAMETERS")]
@@ -33,6 +38,8 @@ namespace PacMan
         void Awake()
         {
             GetComponents();
+
+            InitScreenLimits();
         }
 
         // Start is called before the first frame update
@@ -46,6 +53,7 @@ namespace PacMan
         {
             CalculateVelocityDirection();
             CheckHorizontalOrientation();
+            CheckOutScreen();
         }
 
         void FixedUpdate()
@@ -73,6 +81,40 @@ namespace PacMan
             {
                 m_initialPosition = transform.localPosition;
             }
+        }
+
+        private void InitScreenLimits()
+        {
+            leftScreenLimit = Camera.main.ScreenToWorldPoint(Vector3.zero).x;
+            rightScreenLimit = Camera.main.ScreenToWorldPoint(new Vector3(Screen.width, 0.0f, 0.0f)).x;
+
+            upScreenLimit = Camera.main.ScreenToWorldPoint(new Vector3(0.0f, Screen.height, 0.0f)).y;
+            downScreenLimit = Camera.main.ScreenToWorldPoint(Vector3.zero).y;
+        }
+
+        private void CheckOutScreen()
+        {
+            Vector3 newPosition = transform.position;
+
+            if (transform.position.x < leftScreenLimit)
+            {
+                newPosition.x = rightScreenLimit;
+            }
+            else if (transform.position.x > rightScreenLimit)
+            {
+                newPosition.x = leftScreenLimit;
+            }
+
+            if(transform.position.y < downScreenLimit)
+            {
+                newPosition.y = upScreenLimit;
+            }
+            else if (transform.position.y > upScreenLimit)
+            {
+                newPosition.y = downScreenLimit;
+            }
+
+            transform.position = newPosition;
         }
 
         private void CalculateVelocityDirection()
