@@ -14,7 +14,11 @@ namespace PacMan
         private Rigidbody2D m_rigidbody;
 
         private Vector2 m_initialPosition;
-        //private Vector2 m_direction = Vector2.zero;
+        private Vector2 m_velocityDirection = Vector2.zero;
+        private Vector2 m_velocityRef = Vector2.zero;
+
+
+        private float m_smoothTime = 0.0f;
 
         [Header("MOVEMENTS PARAMETERS")]
         [SerializeField] private float m_speed;
@@ -33,19 +37,27 @@ namespace PacMan
         // Update is called once per frame
         void Update()
         {
-            Vector2 direction = new Vector2();
-
             float horizontalDirection = m_playerInputs.inputRaw.x;
             float verticalDirection = m_playerInputs.inputRaw.y;
 
-            direction += Vector2.right * horizontalDirection;
-            direction += Vector2.up * verticalDirection;
+            if (horizontalDirection > 0.5f || horizontalDirection < -0.5f)
+            {
+                m_velocityDirection = Vector2.right * horizontalDirection;
+            }
+            else if (verticalDirection > 0.5f || verticalDirection < -0.5f)
+            {
+                m_velocityDirection = Vector2.up * verticalDirection;
+            }
 
-            direction.Normalize();
+            m_velocityDirection.Normalize();
 
-            direction *= m_speed;
+            m_velocityDirection *= m_speed;
 
-            m_rigidbody.velocity = direction * Time.deltaTime;
+            Vector2 smoothedVelocity = Vector2.SmoothDamp(m_rigidbody.velocity, m_velocityDirection, ref m_velocityRef, m_smoothTime);
+
+            m_rigidbody.velocity = smoothedVelocity;
+
+            //m_rigidbody.velocity = direction * Time.deltaTime;
         }
 
         void FixedUpdate()
