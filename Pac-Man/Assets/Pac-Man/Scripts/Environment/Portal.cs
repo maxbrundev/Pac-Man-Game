@@ -2,20 +2,23 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Portal : MonoBehaviour
+namespace PacMan
 {
-    [SerializeField] private Transform m_exitPosition;
-
-    void OnTriggerEnter2D(Collider2D other)
+    public class Portal : MonoBehaviour
     {
-        if (other.gameObject.tag == "Player")
+        [SerializeField] private Transform m_exitPosition;
+
+        void OnTriggerEnter2D(Collider2D other)
         {
-            Teleport(other.gameObject);
+            if (other.gameObject.tag == "Player")
+            {
+                Teleport(other.gameObject);
+            }
         }
-    }
 
-    public void Teleport(GameObject p_object)
-    {
-        p_object.transform.localPosition = m_exitPosition.position;
+        public void Teleport(GameObject p_object)
+        {
+            p_object.transform.localPosition = m_exitPosition.position;
+        }
     }
 }

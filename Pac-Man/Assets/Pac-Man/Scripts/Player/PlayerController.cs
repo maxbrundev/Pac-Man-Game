@@ -8,7 +8,6 @@ namespace PacMan
 	* A class that encapsulates the Player movements logic
 	*/
     [RequireComponent(typeof(Rigidbody2D))]
-    [RequireComponent(typeof(Collider2D))]
     public class PlayerController : MonoBehaviour
     {
         private PlayerInputs m_playerInputs;
@@ -38,7 +37,6 @@ namespace PacMan
         void Awake()
         {
             GetComponents();
-
             InitScreenLimits();
         }
 
