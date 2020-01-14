@@ -4,13 +4,16 @@ using UnityEngine;
 
 namespace PacMan
 {
+    /**
+	* A class that encapsulates the Player Inputs
+	*/
     public class PlayerInputs : MonoBehaviour
     {
         [Header("INPUTS BINDING")]
         [SerializeField] private string m_horizontalAxisInput;
         [SerializeField] private string m_verticalAxisInput;
 
-        public Vector2 input
+        public Vector2 AxisInput
         {
             get
             {
@@ -21,7 +24,7 @@ namespace PacMan
             }
         }
 
-        public Vector2 inputRaw
+        public Vector2 AxisInputRaw
         {
             get
             {
