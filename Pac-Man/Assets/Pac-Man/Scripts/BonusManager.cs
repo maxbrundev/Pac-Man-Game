@@ -2,55 +2,41 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class BonusManager : MonoBehaviour
+namespace PacMan
 {
-    public List<PacMan.BonusPickup> m_bonusList = new List<PacMan.BonusPickup>();
-    private bool m_isRespawnBonusNeeded = false;
-
-    // Start is called before the first frame update
-    void Start()
+    public class BonusManager : MonoBehaviour
     {
-        foreach(PacMan.BonusPickup bonus in m_bonusList)
-        {
-            bonus.BonusEatedEvent += OnCheckBonusList;
-        }
-    }
+        public List<PacMan.BonusPickup> m_bonusList = new List<PacMan.BonusPickup>();
+        private bool m_isRespawnBonusNeeded = false;
 
-    // Update is called once per frame
-    void Update()
-    {
-        
-    }
-
-    private void OnCheckBonusList()
-    {
-        m_isRespawnBonusNeeded = false;
-
-        foreach (PacMan.BonusPickup bonus in m_bonusList)
-        {
-            if (bonus.m_isDisable == true)
-            {
-                m_isRespawnBonusNeeded = true;
-            }
-            else
-            {
-                m_isRespawnBonusNeeded = false;
-            }
-        }
-
-        CheckBonusRespawn();
-    }
-
-    private void CheckBonusRespawn()
-    {
-        if (m_isRespawnBonusNeeded)
+        // Start is called before the first frame update
+        void Start()
         {
             foreach (PacMan.BonusPickup bonus in m_bonusList)
             {
                 bonus.EnablePickup();
             }
+        }
 
-            m_isRespawnBonusNeeded = false;
+        // Update is called once per frame
+        void Update()
+        {
+            CheckBonusList();
+        }
+
+        private void CheckBonusList()
+        {
+            foreach (PacMan.BonusPickup bonus in m_bonusList)
+            {
+                if (bonus.m_isDisable == true)
+                {
+                    m_isRespawnBonusNeeded = true;
+                }
+                else
+                {
+                    m_isRespawnBonusNeeded = false;
+                }
+            }
         }
     }
 }

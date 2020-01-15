@@ -2,18 +2,21 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class CameraResize : MonoBehaviour
+namespace PacMan
 {
-    public SpriteRenderer m_backgroundSprite;
-
-    // Use this for initialization
-    void Start()
+    public class CameraResize : MonoBehaviour
     {
-        float screenRatio = (float)Screen.width / (float)Screen.height;
-        float targetRatio = m_backgroundSprite.bounds.size.x / m_backgroundSprite.bounds.size.y;
+        public SpriteRenderer m_backgroundSprite;
 
-        float differenceInSize = targetRatio / screenRatio;
+        // Use this for initialization
+        void Start()
+        {
+            float screenRatio = (float)Screen.width / (float)Screen.height;
+            float targetRatio = m_backgroundSprite.bounds.size.x / m_backgroundSprite.bounds.size.y;
 
-        Camera.main.orthographicSize = screenRatio >= targetRatio ? m_backgroundSprite.bounds.size.y / 2 : m_backgroundSprite.bounds.size.y / 2 * differenceInSize;
+            float differenceInSize = targetRatio / screenRatio;
+
+            Camera.main.orthographicSize = screenRatio >= targetRatio ? m_backgroundSprite.bounds.size.y / 2 : m_backgroundSprite.bounds.size.y / 2 * differenceInSize;
+        }
     }
 }
