@@ -4,14 +4,22 @@ using UnityEngine;
 
 namespace PacMan
 {
-    public class BonusPickup : MonoBehaviour
+    public class Coin : MonoBehaviour
     {
         private SpriteRenderer m_sprite;
 
-        [HideInInspector] public bool m_isDisable = false;
+        private bool m_enable = false;
 
         [Header("BONUS PARAMETERS")]
         [SerializeField] private uint m_value;
+
+        public bool Enabled
+        {
+            get
+            {
+                return m_enable;
+            }
+        }
 
         void Awake()
         {
@@ -20,7 +28,7 @@ namespace PacMan
 
         void Start()
         {
-            EnablePickup();
+            EnableSpriteRenderer(true);
         }
 
         private void GetComponents()
@@ -32,29 +40,33 @@ namespace PacMan
         {
             if (col.gameObject.tag == "Player")
             {
-                if (!m_isDisable)
+                if (!m_enable)
                 {
                     Score score = col.gameObject.GetComponent<Score>();
 
                     if (score != null)
                         score.AddScorePoints(m_value);
 
-                    //simple disable, cheaper than destroy the object
-                    DisablePickup();
+                    DisableCoin();
                 }
             }
         }
 
-        public void DisablePickup()
+        public void DisableCoin()
         {
-            m_isDisable = true;
-            m_sprite.transform.gameObject.SetActive(false);
+            m_enable = true;
+            EnableSpriteRenderer(false);
         }
 
-        public void EnablePickup()
+        public void EnableCoin()
         {
-            m_isDisable = false;
-            m_sprite.transform.gameObject.SetActive(true);
+            m_enable = false;
+            EnableSpriteRenderer(true);
+        }
+
+        private void EnableSpriteRenderer(bool p_value)
+        {
+            m_sprite.enabled = p_value;
         }
     }
 }
