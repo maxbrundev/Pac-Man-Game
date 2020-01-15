@@ -6,9 +6,12 @@ namespace PacMan
 {
     public class BonusPickup : MonoBehaviour
     {
+        public delegate void BonusEatedDelegate();
+        public event BonusEatedDelegate BonusEatedEvent;
+
         private SpriteRenderer m_sprite;
 
-        private bool m_isDisable = false;
+        [HideInInspector] public bool m_isDisable = false;
 
         [Header("BONUS PARAMETERS")]
         [SerializeField] private uint m_value;
@@ -34,6 +37,9 @@ namespace PacMan
             {
                 if (!m_isDisable)
                 {
+                    if(BonusEatedEvent != null)
+                        BonusEatedEvent();
+
                     Score score = col.gameObject.GetComponent<Score>();
 
                     if (score != null)
@@ -48,13 +54,15 @@ namespace PacMan
         public void DisablePickup()
         {
             m_isDisable = true;
-            m_sprite.transform.gameObject.SetActive(false);
+            m_sprite.color = Color.red;
+            //m_sprite.transform.gameObject.SetActive(false);
         }
 
         public void EnablePickup()
         {
             m_isDisable = false;
-            m_sprite.transform.gameObject.SetActive(true);
+            m_sprite.color = Color.green;
+            //m_sprite.transform.gameObject.SetActive(true);
         }
     }
 }
