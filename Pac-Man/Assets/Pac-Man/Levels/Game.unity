@@ -195,6 +195,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0247c9ad88a883c43ad6f635f33a3633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 1
   m_value: 10
 --- !u!61 &81588663
 BoxCollider2D:
@@ -1216,6 +1217,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0247c9ad88a883c43ad6f635f33a3633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 1
   m_value: 10
 --- !u!61 &414529820
 BoxCollider2D:
@@ -1891,6 +1893,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0247c9ad88a883c43ad6f635f33a3633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 1
   m_value: 10
 --- !u!61 &832058913
 BoxCollider2D:
@@ -2354,7 +2357,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ac37c089b4238474a87d8af1d7d3fada, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_speed: 1
+  m_speed: 9
   m_wayPoints:
   - {fileID: 1288523688}
   - {fileID: 985538389}
@@ -2613,6 +2616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0247c9ad88a883c43ad6f635f33a3633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 1
   m_value: 10
 --- !u!61 &1114822825
 BoxCollider2D:
@@ -3008,6 +3012,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0247c9ad88a883c43ad6f635f33a3633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 1
   m_value: 10
 --- !u!61 &1267320968
 BoxCollider2D:
@@ -4138,6 +4143,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0247c9ad88a883c43ad6f635f33a3633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 1
   m_value: 10
 --- !u!61 &1603204697
 BoxCollider2D:
@@ -4701,6 +4707,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0247c9ad88a883c43ad6f635f33a3633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 1
   m_value: 10
 --- !u!61 &1775405374
 BoxCollider2D:
@@ -5129,6 +5136,59 @@ SpriteRenderer:
   m_WasSpriteAssigned: 1
   m_MaskInteraction: 0
   m_SpriteSortPoint: 0
+--- !u!1 &1921899685
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1921899687}
+  - component: {fileID: 1921899686}
+  m_Layer: 0
+  m_Name: CoinManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &1921899686
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921899685}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 63e9beb103319364c9ba8e017ed7df3d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_totalCoins:
+  - {fileID: 1267320967}
+  - {fileID: 1775405373}
+  - {fileID: 1114822824}
+  - {fileID: 1939820758}
+  - {fileID: 2013893501}
+  - {fileID: 832058912}
+  - {fileID: 1603204696}
+  - {fileID: 414529819}
+  - {fileID: 81588662}
+--- !u!4 &1921899687
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1921899685}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 8
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1935618138
 GameObject:
   m_ObjectHideFlags: 0
@@ -5254,6 +5314,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0247c9ad88a883c43ad6f635f33a3633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 1
   m_value: 10
 --- !u!61 &1939820759
 BoxCollider2D:
@@ -5433,6 +5494,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0247c9ad88a883c43ad6f635f33a3633, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  active: 1
   m_value: 10
 --- !u!61 &2013893502
 BoxCollider2D:

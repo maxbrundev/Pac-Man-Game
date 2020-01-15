@@ -6,18 +6,21 @@ namespace PacMan
 {
     public class Coin : MonoBehaviour
     {
+        public delegate void CoinDelegate();
+        public event CoinDelegate CoinEvent;
+
         private SpriteRenderer m_sprite;
 
-        private bool m_enable = false;
+        private bool m_enableCoin = true;
 
         [Header("BONUS PARAMETERS")]
         [SerializeField] private uint m_value;
 
-        public bool Enabled
+        public bool EnabledCoin
         {
             get
             {
-                return m_enable;
+                return m_enableCoin;
             }
         }
 
@@ -40,27 +43,29 @@ namespace PacMan
         {
             if (col.gameObject.tag == "Player")
             {
-                if (!m_enable)
+                if (m_enableCoin)
                 {
                     Score score = col.gameObject.GetComponent<Score>();
-
                     if (score != null)
                         score.AddScorePoints(m_value);
 
                     DisableCoin();
+
+                    if (CoinEvent != null)
+                        CoinEvent();
                 }
             }
         }
 
         public void DisableCoin()
         {
-            m_enable = true;
+            m_enableCoin = false;
             EnableSpriteRenderer(false);
         }
 
         public void EnableCoin()
         {
-            m_enable = false;
+            m_enableCoin = true;
             EnableSpriteRenderer(true);
         }
 
