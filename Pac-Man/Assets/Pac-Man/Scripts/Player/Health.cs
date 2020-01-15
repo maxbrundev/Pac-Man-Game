@@ -9,6 +9,9 @@ namespace PacMan
         public delegate void HealthDelegate(float p_value);
         public event HealthDelegate HealthChangedEvent;
 
+        public delegate void DeathDelegate();
+        public event DeathDelegate DeathEvent;
+
         private SpriteRenderer m_playerSprite;
 
         [Header("HEALTH PARAMETERS")]
@@ -36,12 +39,8 @@ namespace PacMan
 
         void Update()
         {
-            if (m_currentHealth < 2)
-                SetDammageColor();
-            else if (m_currentHealth > 2)
-                ResetDefaultColor();
-
             UpdateColorAnimation();
+            CheckDeath();
         }
 
         private void GetComponents()
@@ -79,6 +78,11 @@ namespace PacMan
 
         private void UpdateColorAnimation()
         {
+            if (m_currentHealth < 2)
+                SetDammageColor();
+            else if (m_currentHealth > 2)
+                ResetDefaultColor();
+
             Color currentColor = m_playerSprite.color;
             Color colorToReach = m_colorTarget;
             m_playerSprite.color = new Color(Mathf.Lerp(currentColor.r, colorToReach.r, Time.deltaTime * m_dammageAnimationSpeed), Mathf.Lerp(currentColor.g, colorToReach.g, Time.deltaTime * m_dammageAnimationSpeed), Mathf.Lerp(currentColor.b, colorToReach.b, Time.deltaTime * m_dammageAnimationSpeed), currentColor.a);
@@ -92,6 +96,17 @@ namespace PacMan
         public void ResetDefaultColor()
         {
             m_colorTarget = m_colorDefault;
+        }
+
+        private void CheckDeath()
+        {
+            if(isDead)
+            {
+                if (DeathEvent != null)
+                {
+                    DeathEvent();
+                }
+            }
         }
     }
 }
