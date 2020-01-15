@@ -10,10 +10,12 @@ namespace PacMan
     [RequireComponent(typeof(BoxCollider2D))]
     public class PlayerDetector : MonoBehaviour
     {
+        public delegate void CollisionDelegate();
+        public event CollisionDelegate WallEvent;
+
         private BoxCollider2D m_collider;
 
-        [Header("COLLISION PARAMETERS")]
-        [SerializeField] private float m_radius = 0.25f;
+        public float m_value;
 
         void Awake()
         {
@@ -42,6 +44,14 @@ namespace PacMan
             if(m_collider != null)
             {
             }
+        }
+
+        //Trying to define a wall detection circle
+        public void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+
+            Gizmos.DrawWireSphere(transform.localPosition + transform.forward * m_value, 0.15f);
         }
     }
 }

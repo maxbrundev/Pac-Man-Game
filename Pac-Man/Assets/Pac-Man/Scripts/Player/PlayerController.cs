@@ -24,10 +24,10 @@ namespace PacMan
         private float verticalInput;
         private int m_rotationCoef;
 
-        public float leftScreenLimit;
-        public float rightScreenLimit;
-        public float upScreenLimit;
-        public float downScreenLimit;
+        private float leftScreenLimit;
+        private float rightScreenLimit;
+        private float upScreenLimit;
+        private float downScreenLimit;
 
         private bool m_isFacingRight = true;
 
