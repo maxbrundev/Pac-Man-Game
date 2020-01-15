@@ -45,13 +45,5 @@ namespace PacMan
             {
             }
         }
-
-        //Trying to define a wall detection circle
-        public void OnDrawGizmos()
-        {
-            Gizmos.color = Color.red;
-
-            Gizmos.DrawWireSphere(transform.localPosition + transform.forward * m_value, 0.15f);
-        }
     }
 }
