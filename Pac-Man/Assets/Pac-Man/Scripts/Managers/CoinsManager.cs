@@ -31,14 +31,11 @@ namespace PacMan
 
             for (int i = 0; i < m_totalCoins.Count - 1; i++)
             {
-                for (int j = 0; j < m_totalCoins.Count - i - 1; j++)
+                for (int j = 0; j < m_totalCoins.Count - i -1; j++)
                 {
-                    if (m_totalCoins[j].EnabledCoin && m_totalCoins[j + 1].EnabledCoin)
+                    if (m_totalCoins[j].EnabledCoin != m_totalCoins[j + 1].EnabledCoin)
                         m_needRespawn = false;
                 }
-
-                if (m_totalCoins[i].EnabledCoin)
-                    m_needRespawn = false;
             }
 
             if (m_needRespawn)
