@@ -29,6 +29,8 @@ namespace PacMan
         private float upScreenLimit;
         private float downScreenLimit;
 
+        private float m_screenOffset = 0.0f;
+
         private bool m_isFacingRight = true;
 
         [Header("MOVEMENTS PARAMETERS")]
@@ -103,13 +105,13 @@ namespace PacMan
                 newPosition.x = leftScreenLimit;
             }
 
-            if(transform.position.y < downScreenLimit)
+            if(transform.position.y < downScreenLimit + m_screenOffset)
             {
-                newPosition.y = upScreenLimit;
+                newPosition.y = upScreenLimit - m_screenOffset;
             }
-            else if (transform.position.y > upScreenLimit)
+            else if (transform.position.y > upScreenLimit - m_screenOffset)
             {
-                newPosition.y = downScreenLimit;
+                newPosition.y = downScreenLimit + m_screenOffset;
             }
 
             transform.position = newPosition;

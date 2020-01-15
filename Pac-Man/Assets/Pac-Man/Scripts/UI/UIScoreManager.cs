@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 namespace PacMan
 {
-    public class ScoreManager : MonoBehaviour
+    public class UIScoreManager : MonoBehaviour
     {
         public Text m_scoreText;
         private uint m_scoreAmount = 0;
