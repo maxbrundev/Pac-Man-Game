@@ -10,12 +10,17 @@ namespace PacMan
     [RequireComponent(typeof(BoxCollider2D))]
     public class PlayerDetector : MonoBehaviour
     {
-        public delegate void CollisionDelegate();
-        public event CollisionDelegate WallEvent;
+        //public delegate void CollisionDelegate();
+        //public event CollisionDelegate WallEvent;
+        //
+        //public delegate void EatEnemyDelegate();
+        //public event EatEnemyDelegate EatEnemyEvent;
 
         private BoxCollider2D m_collider;
+        private Vector2 m_colliderEnd;
 
-        public float m_value;
+        public float m_value = 1.0f;
+        public float m_radius = 1.0f;
 
         void Awake()
         {
@@ -31,7 +36,7 @@ namespace PacMan
         // Update is called once per frame
         void Update()
         {
-
+            Collider2D hitedCollider = Physics2D.OverlapCircle(m_colliderEnd, m_radius);
         }
 
         private void GetComponents()
@@ -43,6 +48,7 @@ namespace PacMan
         {
             if(m_collider != null)
             {
+                m_colliderEnd = (Vector2)transform.position + (Vector2)transform.right * m_value;
             }
         }
     }

@@ -14,15 +14,17 @@ namespace PacMan
 
         private SpriteRenderer m_playerSprite;
 
-        [Header("HEALTH PARAMETERS")]
-        [SerializeField] private uint m_maxHealth = 100;
-        [SerializeField] private float m_dammageAnimationSpeed = 2.0f;
-
-        private uint m_currentHealth;
-        private bool isDead = false;
-
         private Color m_colorDefault;
         private Color m_colorTarget;
+
+        private uint m_currentHealth;
+
+        private float m_damageAnimationSpeed = 2.0f;
+
+        private bool m_isDead = false;
+
+        [Header("HEALTH PARAMETERS")]
+        [SerializeField] private uint m_maxHealth = 100;
 
         void Awake()
         {
@@ -33,7 +35,7 @@ namespace PacMan
         void Start()
         {
             m_colorDefault = m_playerSprite.color;
-            m_currentHealth = m_maxHealth;
+            Setup();
         }
 
         void Update()
@@ -47,7 +49,16 @@ namespace PacMan
             m_playerSprite = GetComponentInChildren<SpriteRenderer>();
         }
 
-        public void ApplyDammage(uint p_amount)
+        public void Setup()
+        {
+            m_isDead = false;
+            m_currentHealth = m_maxHealth;
+
+            if(HealthChangedEvent != null)
+                HealthChangedEvent(GetHealthPercentage());
+        }
+
+        public void TakeDamage(uint p_amount)
         {
             if (p_amount > m_currentHealth)
                 m_currentHealth = 0;
@@ -55,9 +66,10 @@ namespace PacMan
                 m_currentHealth -= p_amount;
 
             if (m_currentHealth == 0)
-                isDead = true;
-                
-            HealthChangedEvent(GetHealthPercentage());
+                m_isDead = true;
+
+            if (HealthChangedEvent != null)
+                HealthChangedEvent(GetHealthPercentage());
         }
 
         public void Heal(uint p_amount)
@@ -70,22 +82,23 @@ namespace PacMan
             if (m_currentHealth > m_maxHealth)
                 m_currentHealth = m_maxHealth;
 
-            HealthChangedEvent(GetHealthPercentage());
+            if (HealthChangedEvent != null)
+                HealthChangedEvent(GetHealthPercentage());
         }
 
         private void UpdateColorAnimation()
         {
             if (m_currentHealth < 2)
-                SetDammageColor();
+                SetDamageColor();
             else if (m_currentHealth > 2)
                 ResetDefaultColor();
 
             Color currentColor = m_playerSprite.color;
             Color colorToReach = m_colorTarget;
-            m_playerSprite.color = new Color(Mathf.Lerp(currentColor.r, colorToReach.r, Time.deltaTime * m_dammageAnimationSpeed), Mathf.Lerp(currentColor.g, colorToReach.g, Time.deltaTime * m_dammageAnimationSpeed), Mathf.Lerp(currentColor.b, colorToReach.b, Time.deltaTime * m_dammageAnimationSpeed), currentColor.a);
+            m_playerSprite.color = new Color(Mathf.Lerp(currentColor.r, colorToReach.r, Time.deltaTime * m_damageAnimationSpeed), Mathf.Lerp(currentColor.g, colorToReach.g, Time.deltaTime * m_damageAnimationSpeed), Mathf.Lerp(currentColor.b, colorToReach.b, Time.deltaTime * m_damageAnimationSpeed), currentColor.a);
         }
 
-        public void SetDammageColor()
+        public void SetDamageColor()
         {
             m_colorTarget = Color.red;
         }
@@ -97,24 +110,14 @@ namespace PacMan
 
         private void CheckDeath()
         {
-            if(isDead)
+            if(m_isDead)
             {
                 if (DeathEvent != null)
                 {
                     DeathEvent();
-                   
                 }
-
                 Setup();
             }
-        }
-
-        public void Setup()
-        {
-            isDead = false;
-            m_currentHealth = m_maxHealth;
-
-            HealthChangedEvent(GetHealthPercentage());
         }
 
         private float GetHealthPercentage()

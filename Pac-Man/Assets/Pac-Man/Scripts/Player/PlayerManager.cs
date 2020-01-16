@@ -15,16 +15,19 @@ namespace PacMan
         private Health m_health;
         private Score m_score;
 
-        // Start is called before the first frame update
-        void Start()
+        void Awake()
         {
             GetComponents();
         }
 
-        // Update is called once per frame
-        void Update()
+        // Start is called before the first frame update
+        void Start()
         {
+            
 
+            ListenEvents();
+
+            FindObjects();
         }
 
         private void GetComponents()
@@ -32,8 +35,38 @@ namespace PacMan
             m_controller = GetComponent<PlayerController>();
             m_health = GetComponent<Health>();
             m_score = GetComponent<Score>();
+        }
 
+        private void ListenEvents()
+        {
             m_health.DeathEvent += OnDead;
+        }
+
+        private void FindObjects()
+        {
+            var ghosts = FindObjectsOfType<Ghost>();
+
+            foreach (var ghost in ghosts)
+            {
+                ghost.ApplyDamageEvent += OnTakeDamage;
+                ghost.KilledEvent += OnWinCoins;
+            }
+        }
+
+        private void OnWinCoins(uint p_amount)
+        {
+            m_score.AddScorePoints(p_amount);
+        }
+
+        private void OnTakeDamage(uint p_amount)
+        {
+            m_health.TakeDamage(p_amount);
+        }
+
+        private void LinstenEvents()
+        {
+            if (m_health != null)
+                m_health.DeathEvent += OnDead;
         }
 
         public void Setup()

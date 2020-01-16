@@ -7,32 +7,149 @@ namespace PacMan
     /**
 	* A class that represent the enemy logic, I need to create a grid for proper movements
 	*/
-    public class Ghost : MonoBehaviour
+    public class Ghost : MonoBehaviour, IEnemyActor
     {
+        public delegate void GhostDelegate(uint p_amount);
+        public event GhostDelegate ApplyDamageEvent;
+        public event GhostDelegate KilledEvent;
+
+        public List<Transform> m_wayPoints = new List<Transform>();
+
+        private BoxCollider2D m_collider;
+        private SpriteRenderer m_spriteRenderer;
+
+        private Vector2 m_spawnPosition;
+
+        private bool m_isDead = false;
+
+        private uint m_healthPoints;
+
         [Header("ENEMY PARAMETERS")]
+        [SerializeField] private uint m_maxHealthPoints;
+
+        [SerializeField] private uint m_damagePoints;
+        [SerializeField] private uint m_coinsToWin;
+
         [SerializeField] private float m_speed;
+        [SerializeField] private float m_moveToSpawnSpeed;
 
-        public Transform[] m_wayPoints;
+        private int m_pointIndex = 0;
 
-        private float m_wayPointDistance;
-        private int m_randomPoint;
+        void Awake()
+        {
+            GetComponents();
+        }
 
         // Start is called before the first frame update
         void Start()
         {
-            m_randomPoint = Random.Range(0, m_wayPoints.Length);
+            m_spawnPosition = (Vector2)transform.position;
+
+            Setup();
         }
 
         // Update is called once per frame
         void Update()
         {
-            transform.position = Vector2.MoveTowards(transform.position, m_wayPoints[m_randomPoint].transform.position, m_speed * Time.deltaTime);
-            m_wayPointDistance = Vector2.Distance(transform.position, m_wayPoints[m_randomPoint].position);
+            //CheckWayPoints();
+            //Move();
 
-            if (m_wayPointDistance < 0.1f)
+            CheckisDead();
+        }
+
+        private void GetComponents()
+        {
+            m_collider = GetComponent<BoxCollider2D>();
+            m_spriteRenderer = GetComponent<SpriteRenderer>();
+        }
+
+        public void Setup()
+        {
+            m_isDead = false;
+            m_healthPoints = m_maxHealthPoints;
+
+            EnableCollisions();
+        }
+
+        private void CheckisDead()
+        {
+            if (m_isDead)
             {
-                m_randomPoint = Random.Range(0, m_wayPoints.Length);
+                DisableCollisions();
+                Spawn();
             }
+            
+        }
+
+        private void CheckWayPoints()
+        {
+
+        }
+
+        private void OnCollisionEnter2D(Collision2D col)
+        {
+            if(!m_isDead)
+            {
+                if (col.gameObject.tag == "Player")
+                {
+                    Vector2 playerPos = (Vector2)col.gameObject.transform.position;
+                    float angle = Vector2.SignedAngle((Vector2)transform.up, playerPos - (Vector2)transform.position);
+
+                    if (angle > 0.0f)
+                    {
+                        Debug.Log("AIE");
+                        TakeDamage(1);
+
+                        if (KilledEvent != null)
+                            KilledEvent(m_coinsToWin);
+                    }
+                    else
+                    {
+                        Debug.Log("BOOM");
+                        ApplyDamage(1);
+                    }
+                }
+            }
+        }
+
+        private void DisableCollisions()
+        {
+            m_collider.enabled = false;
+        }
+
+        private void EnableCollisions()
+        {
+            m_collider.enabled = true;
+        }
+
+        public void Move(Vector2 p_direction)
+        {
+            transform.position = Vector2.MoveTowards(transform.position, m_wayPoints[m_pointIndex].transform.position, m_speed * Time.deltaTime);
+        }
+
+        public void TakeDamage(uint p_amount)
+        {
+            if (p_amount > m_healthPoints)
+                m_healthPoints = 0;
+            else
+                m_healthPoints -= p_amount;
+
+            if (m_healthPoints == 0)
+            {
+                m_isDead = true;
+            }
+        }
+
+        public void ApplyDamage(uint p_amount)
+        {
+            if (ApplyDamageEvent != null)
+                ApplyDamageEvent(p_amount);
+        }
+
+        public void Spawn()
+        {
+            transform.position = m_spawnPosition;
+            Setup();
         }
     }
 }

@@ -6,7 +6,7 @@ namespace PacMan
 {
     public class ApplyDammageTest : MonoBehaviour
     {
-        [Header("DAMMAGES PARAMETERS")]
+        [Header("DAMAGES PARAMETERS")]
         [SerializeField] private uint m_value;
 
         void OnTriggerEnter2D(Collider2D col)
@@ -16,7 +16,7 @@ namespace PacMan
                 Health healthBehaviour = col.gameObject.GetComponent<Health>();
 
                 if (healthBehaviour != null)
-                    healthBehaviour.ApplyDammage(m_value);
+                    healthBehaviour.TakeDamage(m_value);
             }
         }
     }
