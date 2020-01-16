@@ -23,10 +23,7 @@ namespace PacMan
         // Start is called before the first frame update
         void Start()
         {
-            
-
             ListenEvents();
-
             FindObjects();
         }
 

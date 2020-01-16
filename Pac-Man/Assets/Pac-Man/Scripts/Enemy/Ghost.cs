@@ -83,7 +83,7 @@ namespace PacMan
 
         private void CheckWayPoints()
         {
-
+            //TODO
         }
 
         private void OnCollisionEnter2D(Collision2D col)
