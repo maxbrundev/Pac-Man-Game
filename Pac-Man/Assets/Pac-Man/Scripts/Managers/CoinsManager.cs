@@ -6,23 +6,25 @@ namespace PacMan
 {
     public class CoinsManager : MonoBehaviour
     {
-        public List<Coin> m_totalCoins = new List<Coin>();
+        private List<Coin> m_totalCoins = new List<Coin>();
 
         private bool m_needRespawn = false;
 
         // Start is called before the first frame update
         void Start()
         {
-            foreach(Coin coin in m_totalCoins)
-            {
-                coin.CoinEvent += OnCoin;
-            }
+            InitCoinList();
         }
 
-        // Update is called once per frame
-        void Update()
+        private void InitCoinList()
         {
+            Coin[] Coins = FindObjectsOfType<Coin>();
 
+            for (int i = 0; i < Coins.Length; i++)
+            {
+                Coins[i].CoinEvent += OnCoin;
+                m_totalCoins.Add(Coins[i]);
+            }
         }
 
         private void OnCoin()
