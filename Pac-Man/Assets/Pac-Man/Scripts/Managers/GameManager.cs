@@ -11,14 +11,15 @@ namespace PacMan
         private PlayerController m_playerController;
         private Score m_playerScore;
 
-        public GameObject m_playerPrefab;
+        //public GameObject m_playerPrefab;
         public Transform m_spawnPoint;
 
         // Start is called before the first frame update
         void Start()
         {
-            SpawnPlayer();
+            
             FindObjects();
+            SpawnPlayer();
             LinstenEvents();
         }
 
@@ -49,7 +50,8 @@ namespace PacMan
 
         private void SpawnPlayer()
         {
-            m_playerPrefab = Instantiate(m_playerPrefab, m_spawnPoint.position, m_spawnPoint.rotation) as GameObject;
+            m_playerController.SetPosition(m_spawnPoint.position);
+            //m_playerPrefab = Instantiate(m_playerPrefab, m_spawnPoint.position, m_spawnPoint.rotation) as GameObject;
         }
 
         private void RespawnPlayer()
