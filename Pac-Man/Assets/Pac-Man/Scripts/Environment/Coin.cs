@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace PacMan
 {
+    /**
+	* A class that contain the coin behaviour
+	*/
     public class Coin : MonoBehaviour
     {
         public delegate void CoinDelegate();

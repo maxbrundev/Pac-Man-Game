@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace PacMan
 {
+    /**
+	* A class that automatically resize the orthographic camera for feet with the background given
+	*/
     public class CameraResize : MonoBehaviour
     {
         public SpriteRenderer m_backgroundSprite;

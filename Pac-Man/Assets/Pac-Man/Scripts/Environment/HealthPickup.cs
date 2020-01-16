@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace PacMan
 {
+    /**
+	* A class that contain the health bonus behaviour
+	*/
     public class HealthPickup : MonoBehaviour
     {
         [Header("HEAL PARAMETERS")]

@@ -5,7 +5,7 @@ using UnityEngine;
 namespace PacMan
 {
     /**
-	* A class that represent the enemy logic, I need to create a grid for proper movements
+	* A class that represent the Ghost behaviour
 	*/
     public class Ghost : MonoBehaviour, IEnemyActor
     {
