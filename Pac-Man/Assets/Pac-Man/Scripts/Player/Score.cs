@@ -19,7 +19,7 @@ namespace PacMan
             ScoreChangedEvent(m_actualScore);
         }
 
-        public void ResetScore()
+        public void Setup()
         {
             if (m_actualScore > m_bestScore)
                 m_bestScore = m_actualScore;

@@ -6,68 +6,102 @@ namespace PacMan
 {
     public class GameManager : MonoBehaviour
     {
-        private CoinsManager m_coinsManager;
-
-        private PlayerController m_playerController;
-        private Score m_playerScore;
-
-        //public GameObject m_playerPrefab;
-        public Transform m_spawnPoint;
-
-        // Start is called before the first frame update
-        void Start()
+        public enum GameState
         {
-            
-            FindObjects();
-            SpawnPlayer();
-            LinstenEvents();
+            MENU,
+            GAME
         }
 
-        // Update is called once per frame
-        void Update()
+        private static GameManager instance = null;
+
+        private PlayerManager m_playerManager;
+        private CoinsManager m_coinsManager;
+
+        public delegate void GameStateDelegate();
+        public event GameStateDelegate GameStateChangedEvent;
+
+        public GameState m_state;
+
+        public static GameManager Instance
+        {
+            get
+            {
+                if(instance == null)
+                {
+                    instance = new GameManager();
+                    DontDestroyOnLoad(instance);
+                }
+
+                return instance;
+            }
+        }
+
+        private GameManager()
+        {
+
+        }
+
+        private void Update()
         {
             
+        }
+
+        void Awake()
+        {
+            if (instance == null)
+            {
+                instance = this;
+            }
+            else if(instance != this)
+            {
+                Destroy(gameObject);
+            }
+
+            DontDestroyOnLoad(instance);
+        }
+
+        public void SetGameState(GameState p_state)
+        {
+            m_state = p_state;
+
+            if(GameStateChangedEvent != null)
+                GameStateChangedEvent();
+
+            if (m_state == GameState.GAME)
+            {
+                FindObjects();
+                LinstenEvents();
+
+                if (m_playerManager)
+                    m_playerManager.Setup();
+            }
+        }
+
+        private void OnApplicationQuit()
+        {
+            instance = null;
         }
 
         private void FindObjects()
         {
-            m_coinsManager      = FindObjectOfType<CoinsManager>();
-            m_playerController  = FindObjectOfType<PlayerController>();
-            m_playerScore       = FindObjectOfType<Score>();
+            m_playerManager = FindObjectOfType<PlayerManager>();
+            m_coinsManager  = FindObjectOfType<CoinsManager>();
         }
 
         private void LinstenEvents()
         {
-            FindObjectOfType<Health>().DeathEvent += OnGameOver;
+            if(m_playerManager)
+                m_playerManager.PlayerDieEvent += OnGameOver;
         }
 
         private void OnGameOver()
         {
-            ResetPlayerScore();
             ResetCoins();
-            RespawnPlayer();
-        }
-
-        private void SpawnPlayer()
-        {
-            m_playerController.SetPosition(m_spawnPoint.position);
-            //m_playerPrefab = Instantiate(m_playerPrefab, m_spawnPoint.position, m_spawnPoint.rotation) as GameObject;
-        }
-
-        private void RespawnPlayer()
-        {
-            m_playerController.StopMovement();
-            m_playerController.SetPosition(m_spawnPoint.position);
         }
 
         private void ResetCoins()
         {
             m_coinsManager.RespawnCoins();
-        }
-
-        private void ResetPlayerScore()
-        {
-            m_playerScore.ResetScore();
         }
     }
 }

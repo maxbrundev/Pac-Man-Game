@@ -102,12 +102,14 @@ namespace PacMan
                 if (DeathEvent != null)
                 {
                     DeathEvent();
-                    ResetHealth();
+                   
                 }
+
+                Setup();
             }
         }
 
-        public void ResetHealth()
+        public void Setup()
         {
             isDead = false;
             m_currentHealth = m_maxHealth;

@@ -216,12 +216,18 @@ namespace PacMan
             m_playerSprite.transform.localScale = flippedScale;
         }
 
-        public void StopMovement()
+        public void SetNewPosition(Vector3 p_position)
         {
-           m_velocityDirection = Vector2.zero;
+            StopMovement();
+            ResetPosition(p_position);
         }
 
-        public void SetPosition(Vector3 p_position)
+        private void StopMovement()
+        {
+            m_velocityDirection = Vector2.zero;
+        }
+
+        private void ResetPosition(Vector3 p_position)
         {
             p_position.z = 0.0f;
             transform.position = p_position;
