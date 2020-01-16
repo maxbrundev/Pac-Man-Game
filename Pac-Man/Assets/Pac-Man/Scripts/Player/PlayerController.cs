@@ -10,6 +10,18 @@ namespace PacMan
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerController : MonoBehaviour
     {
+        private enum State
+        {
+            IDLE,
+            MOVING,
+        }
+
+        public delegate void StateDelegate();
+        public event StateDelegate IdleEvent;
+        public event StateDelegate MovingEvent;
+
+        private State m_state = State.IDLE;
+
         private PlayerInputs m_playerInputs;
 
         private Transform m_transform;
@@ -51,9 +63,11 @@ namespace PacMan
         // Update is called once per frame
         void Update()
         {
-            CalculateVelocityDirection();
+            UpdateState();
             CheckHorizontalOrientation();
             CheckOutScreen();
+            CheckMovingState();
+            Debug.Log(m_state);
         }
 
         void FixedUpdate()
@@ -117,6 +131,29 @@ namespace PacMan
             transform.position = newPosition;
         }
 
+        private void CheckMovingState()
+        {
+            if ((int)m_state <= 1)
+            {
+                m_state = State.IDLE;
+
+                if (m_velocityDirection.magnitude > 0.02f)
+                {
+                    m_state = State.MOVING;
+                }
+            }
+        }
+
+        private void UpdateState()
+        {
+            switch (m_state)
+            {
+                default:
+                    CalculateVelocityDirection();
+                    break;
+            }
+        }
+
         private void CalculateVelocityDirection()
         {
             horizontalInput = m_playerInputs.AxisInputRaw.x;
@@ -177,6 +214,19 @@ namespace PacMan
             flippedScale.x *= -1;
 
             m_playerSprite.transform.localScale = flippedScale;
+        }
+
+        public void StopMovement()
+        {
+           m_velocityDirection = Vector2.zero;
+        }
+
+        public void SetPosition(Vector3 p_position)
+        {
+            p_position.z = 0.0f;
+            transform.position = p_position;
+
+            RotateSpriteTransform(0.0f);
         }
     }
 }

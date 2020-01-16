@@ -15,16 +15,25 @@ namespace PacMan
         // Start is called before the first frame update
         void Start()
         {
-            FindObjectOfType<Health>().HealthChangedEvent += OnHealthChanged;
-
-            m_fillAmount = m_healthBar.fillAmount;
-            m_targetFillAmount = m_fillAmount;
+            ListenEvents();
+            InitImageFill();
         }
 
         // Update is called once per frame
         void Update()
         {
             UpdateHealthUI();
+        }
+
+        private void ListenEvents()
+        {
+            FindObjectOfType<Health>().HealthChangedEvent += OnHealthChanged;
+        }
+
+        private void InitImageFill()
+        {
+            m_fillAmount = m_healthBar.fillAmount;
+            m_targetFillAmount = m_fillAmount;
         }
 
         private void OnHealthChanged(float p_value)

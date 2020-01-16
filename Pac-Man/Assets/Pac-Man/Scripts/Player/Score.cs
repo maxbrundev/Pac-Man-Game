@@ -18,5 +18,13 @@ namespace PacMan
 
             ScoreChangedEvent(m_actualScore);
         }
+
+        public void ResetScore()
+        {
+            if (m_actualScore > m_bestScore)
+                m_bestScore = m_actualScore;
+
+            m_actualScore = 0;
+        }
     }
 }

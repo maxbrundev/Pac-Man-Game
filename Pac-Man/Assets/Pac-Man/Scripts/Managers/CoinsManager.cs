@@ -42,7 +42,7 @@ namespace PacMan
                 RespawnCoins();
         }
 
-        private void RespawnCoins()
+        public void RespawnCoins()
         {
             foreach(Coin coin in m_totalCoins)
             {

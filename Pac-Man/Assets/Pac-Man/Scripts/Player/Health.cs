@@ -19,7 +19,6 @@ namespace PacMan
         [SerializeField] private float m_dammageAnimationSpeed = 2.0f;
 
         private uint m_currentHealth;
-        private float m_healthPercentage;
         private bool isDead = false;
 
         private Color m_colorDefault;
@@ -58,8 +57,7 @@ namespace PacMan
             if (m_currentHealth == 0)
                 isDead = true;
                 
-            m_healthPercentage = (float)m_currentHealth / (float)m_maxHealth;
-            HealthChangedEvent(m_healthPercentage);
+            HealthChangedEvent(GetHealthPercentage());
         }
 
         public void Heal(uint p_amount)
@@ -72,8 +70,7 @@ namespace PacMan
             if (m_currentHealth > m_maxHealth)
                 m_currentHealth = m_maxHealth;
 
-            m_healthPercentage = (float)m_currentHealth / (float)m_maxHealth;
-            HealthChangedEvent(m_healthPercentage);
+            HealthChangedEvent(GetHealthPercentage());
         }
 
         private void UpdateColorAnimation()
@@ -105,8 +102,22 @@ namespace PacMan
                 if (DeathEvent != null)
                 {
                     DeathEvent();
+                    ResetHealth();
                 }
             }
+        }
+
+        public void ResetHealth()
+        {
+            isDead = false;
+            m_currentHealth = m_maxHealth;
+
+            HealthChangedEvent(GetHealthPercentage());
+        }
+
+        private float GetHealthPercentage()
+        {
+            return (float)m_currentHealth / (float)m_maxHealth;
         }
     }
 }
