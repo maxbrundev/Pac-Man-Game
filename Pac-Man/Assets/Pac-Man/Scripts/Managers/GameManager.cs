@@ -4,6 +4,9 @@ using UnityEngine;
 
 namespace PacMan
 {
+    /**
+	* this class contain references on other managers and define the game context depending of his actual state (Restart the Game, clean the scene...) 
+	*/
     public class GameManager : MonoBehaviour
     {
         public enum GameState
@@ -14,8 +17,8 @@ namespace PacMan
 
         private static GameManager instance = null;
 
-        private PlayerManager m_playerManager;
-        private CoinsManager m_coinsManager;
+        private PlayerManager m_playerManager = null;
+        private CoinsManager m_coinsManager = null;
 
         public delegate void GameStateDelegate();
         public event GameStateDelegate GameStateChangedEvent;
@@ -36,6 +39,7 @@ namespace PacMan
             }
         }
 
+        //private Constructor for preventing creation of instances
         private GameManager()
         {
 
@@ -74,6 +78,11 @@ namespace PacMan
 
                 if (m_playerManager)
                     m_playerManager.Setup();
+            }
+            else if (m_state == GameState.MENU)
+            {
+                m_playerManager = null;
+                m_coinsManager = null;
             }
         }
 
