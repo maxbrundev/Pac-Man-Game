@@ -65,15 +65,16 @@ namespace PacMan
         // Update is called once per frame
         void Update()
         {
-            UpdateState();
             CheckHorizontalOrientation();
-            CheckOutScreen();
             CheckMovingState();
+            //UpdateState();
+            CheckOutScreen();
             Debug.Log(m_state);
         }
 
         void FixedUpdate()
         {
+            CalculateVelocityDirection();
             Move();
         }
 
