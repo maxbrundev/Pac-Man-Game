@@ -77,8 +77,6 @@ namespace PacMan
         {
             if(PlayerDieEvent != null)
                 PlayerDieEvent();
-
-            Setup();
         }
     }
 }

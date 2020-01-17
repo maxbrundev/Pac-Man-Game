@@ -21,10 +21,13 @@ namespace PacMan
 
         private void InitCoinList()
         {
+            m_totalCoins.Clear();
+
             Coin[] Coins = FindObjectsOfType<Coin>();
 
             for (int i = 0; i < Coins.Length; i++)
             {
+                Coins[i].EnableCoin();
                 Coins[i].CoinEvent += OnCoin;
                 m_totalCoins.Add(Coins[i]);
             }
@@ -47,12 +50,17 @@ namespace PacMan
                 RespawnCoins();
         }
 
-        public void RespawnCoins()
+        private void RespawnCoins()
         {
             foreach(Coin coin in m_totalCoins)
             {
                 coin.EnableCoin();
             }
+        }
+
+        public void ResetCoins()
+        {
+            InitCoinList();
         }
     }
 }

@@ -113,10 +113,7 @@ namespace PacMan
             if(m_isDead)
             {
                 if (DeathEvent != null)
-                {
                     DeathEvent();
-                }
-                Setup();
             }
         }
 

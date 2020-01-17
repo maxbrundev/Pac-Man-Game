@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 namespace PacMan
 {
@@ -12,13 +13,14 @@ namespace PacMan
         public enum GameState
         {
             MENU,
-            GAME
+            GAME,
+            PAUSE
         }
 
         private static GameManager instance = null;
 
-        private PlayerManager m_playerManager = null;
-        private CoinsManager m_coinsManager = null;
+        private PlayerManager m_playerManager;
+        private CoinsManager m_coinsManager;
 
         public delegate void GameStateDelegate();
         public event GameStateDelegate GameStateChangedEvent;
@@ -45,9 +47,15 @@ namespace PacMan
 
         }
 
-        private void Update()
+        void Start()
         {
-            
+            SceneManager.sceneLoaded += OnSceneLoaded;
+        }
+
+        void OnSceneLoaded(Scene scene, LoadSceneMode mode)
+        {
+            FindObjects();
+            LinstenEvents();
         }
 
         void Awake()
@@ -70,20 +78,6 @@ namespace PacMan
 
             if(GameStateChangedEvent != null)
                 GameStateChangedEvent();
-
-            if (m_state == GameState.GAME)
-            {
-                FindObjects();
-                LinstenEvents();
-
-                if (m_playerManager)
-                    m_playerManager.Setup();
-            }
-            else if (m_state == GameState.MENU)
-            {
-                m_playerManager = null;
-                m_coinsManager = null;
-            }
         }
 
         private void OnApplicationQuit()
@@ -105,12 +99,18 @@ namespace PacMan
 
         private void OnGameOver()
         {
-            ResetCoins();
+            RestartGame();
         }
 
         private void ResetCoins()
         {
-            m_coinsManager.RespawnCoins();
+            m_coinsManager.ResetCoins();
+        }
+
+        public void RestartGame()
+        {
+            m_playerManager.Setup();
+            ResetCoins();
         }
     }
 }
