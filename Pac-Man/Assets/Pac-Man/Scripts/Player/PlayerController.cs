@@ -6,6 +6,8 @@ namespace PacMan
 {
     /**
 	* A class that encapsulates the Player movements logic
+    * (I need to create a 2D Grid class that represent the level and store the center position of each nodes
+    * With this grid i can move the Ghosts and the player case by case and cancel the movements if a case is already owned by a wall sprite)
 	*/
     [RequireComponent(typeof(Rigidbody2D))]
     public class PlayerController : MonoBehaviour

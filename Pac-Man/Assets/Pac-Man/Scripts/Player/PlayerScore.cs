@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PacMan
 {
-    public class Score : MonoBehaviour
+    public class PlayerScore : MonoBehaviour
     {
         public delegate void ScoreDelegate(uint p_value);
         public event ScoreDelegate ScoreChangedEvent;

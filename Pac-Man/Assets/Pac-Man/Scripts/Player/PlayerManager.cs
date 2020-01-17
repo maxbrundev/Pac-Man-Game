@@ -12,8 +12,8 @@ namespace PacMan
         public Transform m_spawnPoint;
 
         private PlayerController m_controller;
-        private Health m_health;
-        private Score m_score;
+        private PlayerHealth m_health;
+        private PlayerScore m_score;
 
         void Awake()
         {
@@ -30,8 +30,8 @@ namespace PacMan
         private void GetComponents()
         {
             m_controller = GetComponent<PlayerController>();
-            m_health = GetComponent<Health>();
-            m_score = GetComponent<Score>();
+            m_health = GetComponent<PlayerHealth>();
+            m_score = GetComponent<PlayerScore>();
         }
 
         private void ListenEvents()

@@ -48,7 +48,7 @@ namespace PacMan
             {
                 if (m_enableCoin)
                 {
-                    Score score = col.gameObject.GetComponent<Score>();
+                    PlayerScore score = col.gameObject.GetComponent<PlayerScore>();
                     if (score != null)
                         score.AddScorePoints(m_value);
 

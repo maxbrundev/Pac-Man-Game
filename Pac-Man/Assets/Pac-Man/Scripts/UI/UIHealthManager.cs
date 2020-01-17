@@ -27,7 +27,7 @@ namespace PacMan
 
         private void ListenEvents()
         {
-            FindObjectOfType<Health>().HealthChangedEvent += OnHealthChanged;
+            FindObjectOfType<PlayerHealth>().HealthChangedEvent += OnHealthChanged;
         }
 
         private void InitImageFill()

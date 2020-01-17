@@ -4,7 +4,7 @@ using UnityEngine;
 
 namespace PacMan
 {
-    public class Health : MonoBehaviour
+    public class PlayerHealth : MonoBehaviour
     {
         public delegate void HealthDelegate(float p_value);
         public event HealthDelegate HealthChangedEvent;

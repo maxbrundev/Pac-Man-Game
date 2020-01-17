@@ -16,8 +16,8 @@ namespace PacMan
         // Start is called before the first frame update
         void Start()
         {
-            FindObjectOfType<Score>().ScoreChangedEvent += OnScore;
-            FindObjectOfType<Score>().BestScoreChangedEvent += OnBestScore;
+            FindObjectOfType<PlayerScore>().ScoreChangedEvent += OnScore;
+            FindObjectOfType<PlayerScore>().BestScoreChangedEvent += OnBestScore;
         }
 
         // Update is called once per frame

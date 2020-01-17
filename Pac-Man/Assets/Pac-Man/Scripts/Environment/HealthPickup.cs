@@ -16,10 +16,10 @@ namespace PacMan
         {
             if (col.gameObject.tag == "Player")
             {
-                Health healthBehaviour = col.gameObject.GetComponent<Health>();
+                PlayerHealth playerHealth = col.gameObject.GetComponent<PlayerHealth>();
 
-                if (healthBehaviour != null)
-                    healthBehaviour.Heal(m_value);
+                if (playerHealth != null)
+                    playerHealth.Heal(m_value);
             }
         }
     }

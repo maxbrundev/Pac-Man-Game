@@ -5,7 +5,9 @@ using UnityEngine;
 namespace PacMan
 {
     /**
-	* A class that represent the Ghost behaviour
+	* A class that encapsulate the Ghost behaviour, the movements behaviour is temporary
+    * (I need to create a 2D Grid class that represent the level and store the center position of each nodes
+    * With this grid i can move the Ghosts and the player case by case and cancel the movements if a case is already owned by a wall sprite)
 	*/
     public class Ghost : MonoBehaviour, IEnemyActor
     {
@@ -51,7 +53,8 @@ namespace PacMan
         // Update is called once per frame
         void Update()
         {
-            Move();
+            //temporary movements
+            //Move();
             CheckisDead();
         }
 
@@ -76,31 +79,22 @@ namespace PacMan
                 DisableCollisions();
                 Spawn();
             }
-            
         }
 
         private void CheckWayPoints()
         {
-            for (int i = 0; i < m_wayPoints.Count; i++)
-            {
-                float distance = Vector3.Distance(m_wayPoints[i].position, transform.position);
-            }
-
-            m_pointIndex++;
-
-            if (m_pointIndex >= m_wayPoints.Count)
-            {
-                m_pointIndex = 0;
-            }
+            m_pointIndex = Random.Range(m_pointIndex - 1, m_wayPoints.Count);
+            m_pointIndex = Mathf.Clamp(m_pointIndex, 0, m_wayPoints.Count);
         }
 
         private void Move()
         {
-            Vector3 targetPosition = m_wayPoints[m_pointIndex].position;
+            Vector3 targetPosition = m_wayPoints[m_pointIndex].localPosition;
+            float distanceFromTarget = Vector2.Distance(targetPosition, transform.position);
 
-            transform.position = Vector2.MoveTowards(transform.position, targetPosition, 2.0f * Time.deltaTime);
-
-            if (transform.position == targetPosition)
+            transform.localPosition = Vector2.MoveTowards(transform.localPosition, targetPosition, m_speed * Time.deltaTime);
+            
+            if (distanceFromTarget < 0.05f)
             {
                 CheckWayPoints();
             }
@@ -113,7 +107,7 @@ namespace PacMan
                 if (col.gameObject.tag == "Player")
                 {
                     Vector2 playerPos = (Vector2)col.gameObject.transform.position;
-                    float angle = Vector2.SignedAngle((Vector2)transform.up, playerPos - (Vector2)transform.position);
+                    float angle = Vector2.SignedAngle((Vector2)transform.right, playerPos - (Vector2)transform.position);
 
                     if (angle > 0.0f)
                     {

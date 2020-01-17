@@ -5,7 +5,7 @@ using UnityEngine;
 namespace PacMan
 {
     /**
-	* A class that encapsulates the colliding and detection logic
+	* A class that encapsulate the colliding and detection logic
 	*/
     [RequireComponent(typeof(BoxCollider2D))]
     public class PlayerDetector : MonoBehaviour
