@@ -55,6 +55,7 @@ namespace PacMan
         {
             //temporary movements
             //Move();
+            CollisionCheck();
             CheckisDead();
         }
 
@@ -100,30 +101,43 @@ namespace PacMan
             }
         }
 
-        private void OnCollisionEnter2D(Collision2D col)
+        private void CollisionCheck()
         {
-            if(!m_isDead)
+            uint collisions = 0;
+
+            Vector2 colliderEnd = transform.position + Vector3.up * 0.5f;
+            Collider2D[] hitedCollider = Physics2D.OverlapCircleAll(colliderEnd, 0.20f);
+
+            foreach (Collider2D hitCollider in hitedCollider)
             {
-                if (col.gameObject.tag == "Player")
+                if (hitCollider.tag != gameObject.tag)
                 {
-                    Vector2 playerPos = (Vector2)col.gameObject.transform.position;
-                    float angle = Vector2.SignedAngle((Vector2)transform.right, playerPos - (Vector2)transform.position);
-
-                    if (angle > 0.0f)
+                    if(hitCollider.tag == "Player")
                     {
-                        Debug.Log("AIE");
                         TakeDamage(1);
-
                         if (KilledEvent != null)
                             KilledEvent(m_coinsToWin);
                     }
-                    else
-                    {
-                        Debug.Log("BOOM");
-                        ApplyDamage(1);
-                    }
                 }
             }
+        }
+
+        private void OnCollisionEnter2D(Collision2D col)
+        {
+            if (!m_isDead)
+            {
+                if (col.gameObject.tag == "Player")
+                {
+                    ApplyDamage(1);
+                }
+            }
+        }
+
+        public void OnDrawGizmos()
+        {
+            Gizmos.color = Color.red;
+
+            Gizmos.DrawWireSphere(transform.position + Vector3.up * 0.5f, 0.20f);
         }
 
         private void DisableCollisions()
