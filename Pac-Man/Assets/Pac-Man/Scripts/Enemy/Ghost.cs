@@ -51,9 +51,7 @@ namespace PacMan
         // Update is called once per frame
         void Update()
         {
-            //CheckWayPoints();
-            //Move();
-
+            Move();
             CheckisDead();
         }
 
@@ -83,7 +81,29 @@ namespace PacMan
 
         private void CheckWayPoints()
         {
-            //TODO
+            for (int i = 0; i < m_wayPoints.Count; i++)
+            {
+                float distance = Vector3.Distance(m_wayPoints[i].position, transform.position);
+            }
+
+            m_pointIndex++;
+
+            if (m_pointIndex >= m_wayPoints.Count)
+            {
+                m_pointIndex = 0;
+            }
+        }
+
+        private void Move()
+        {
+            Vector3 targetPosition = m_wayPoints[m_pointIndex].position;
+
+            transform.position = Vector2.MoveTowards(transform.position, targetPosition, 2.0f * Time.deltaTime);
+
+            if (transform.position == targetPosition)
+            {
+                CheckWayPoints();
+            }
         }
 
         private void OnCollisionEnter2D(Collision2D col)

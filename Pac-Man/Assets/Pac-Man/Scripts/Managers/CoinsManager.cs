@@ -6,6 +6,7 @@ namespace PacMan
 {
     /**
 	* A class that contain all the Coins in a container and handle an event that each coin send when they are eated, this event call a verification of the actual state of the all coins and determine a global respawn or not
+    *
 	*/
     public class CoinsManager : MonoBehaviour
     {
