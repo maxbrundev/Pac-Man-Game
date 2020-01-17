@@ -8,23 +8,34 @@ namespace PacMan
     {
         public delegate void ScoreDelegate(uint p_value);
         public event ScoreDelegate ScoreChangedEvent;
+        public event ScoreDelegate BestScoreChangedEvent;
 
         private uint m_actualScore = 0;
         private uint m_bestScore = 0;
+
 
         public void AddScorePoints(uint p_value)
         {
             m_actualScore += p_value;
 
-            ScoreChangedEvent(m_actualScore);
+            if (ScoreChangedEvent != null)
+                ScoreChangedEvent(m_actualScore);
+
+            if (m_actualScore > m_bestScore)
+            {
+                m_bestScore = m_actualScore;
+
+                if (BestScoreChangedEvent != null)
+                    BestScoreChangedEvent(m_bestScore);
+            }
         }
 
         public void Setup()
         {
-            if (m_actualScore > m_bestScore)
-                m_bestScore = m_actualScore;
-
             m_actualScore = 0;
+
+            if (ScoreChangedEvent != null)
+                ScoreChangedEvent(m_actualScore);
         }
     }
 }

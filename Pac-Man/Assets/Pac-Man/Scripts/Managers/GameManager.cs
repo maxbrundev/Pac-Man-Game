@@ -19,13 +19,13 @@ namespace PacMan
 
         private static GameManager instance = null;
 
-        private PlayerManager m_playerManager;
-        private CoinsManager m_coinsManager;
+        private PlayerManager m_playerManager = null;
+        private CoinsManager m_coinsManager = null;
 
         public delegate void GameStateDelegate();
         public event GameStateDelegate GameStateChangedEvent;
 
-        public GameState m_state;
+        private GameState m_state;
 
         public static GameManager Instance
         {
@@ -49,13 +49,20 @@ namespace PacMan
 
         void Start()
         {
+            Init();
+
             SceneManager.sceneLoaded += OnSceneLoaded;
         }
 
         void OnSceneLoaded(Scene scene, LoadSceneMode mode)
         {
+            Init();
+        }
+
+        private void Init()
+        {
             FindObjects();
-            LinstenEvents();
+            ListenEvents();
         }
 
         void Awake()
@@ -91,7 +98,7 @@ namespace PacMan
             m_coinsManager  = FindObjectOfType<CoinsManager>();
         }
 
-        private void LinstenEvents()
+        private void ListenEvents()
         {
             if(m_playerManager)
                 m_playerManager.PlayerDieEvent += OnGameOver;

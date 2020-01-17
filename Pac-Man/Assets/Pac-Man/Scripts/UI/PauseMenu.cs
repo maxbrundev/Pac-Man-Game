@@ -7,11 +7,14 @@ public class PauseMenu : MonoBehaviour
 {
     public static bool IsPaused = false;
 
+    private GameManager m_gameManager;
+
     public GameObject m_pauseMenu;
 
     // Start is called before the first frame update
     void Start()
     {
+        m_gameManager = GameManager.Instance;
         Hide();
     }
 
@@ -27,10 +30,12 @@ public class PauseMenu : MonoBehaviour
         {
             if (!IsPaused)
             {
+                m_gameManager.SetGameState(GameManager.GameState.PAUSE);
                 Display();
             }
             else
             {
+                m_gameManager.SetGameState(GameManager.GameState.GAME);
                 Hide();
             }
         }
@@ -62,7 +67,9 @@ public class PauseMenu : MonoBehaviour
 
     public void Restart()
     {
-        //TODO
+        Hide();
+        m_gameManager.SetGameState(GameManager.GameState.GAME);
+        m_gameManager.RestartGame();
     }
 
     public void Quit()
